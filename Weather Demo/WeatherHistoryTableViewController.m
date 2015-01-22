@@ -40,7 +40,6 @@
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[weather.dt floatValue]];
     cell.detailTextLabel.text = [self.dateFormatter stringFromDate:date];
     cell.textLabel.text = [NSString stringWithFormat:@"%.2f°f",tempInF];
-//    cell.detailTextLabel.text = weather.location;
     NSURL *url = [NSURL URLWithString:weather.icon];
     [cell.imageView sd_setImageWithURL:url placeholderImage:nil];
 }

@@ -72,24 +72,27 @@
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Weather"];
         [request setPredicate:[NSPredicate predicateWithFormat:@"dt = %@", dt]];
         [request setFetchLimit:1];
-        NSUInteger count = [context countForFetchRequest:request error:&error];
+        NSArray *fetchedObjects = [context executeFetchRequest:request error:&error];
         
+        Weather *weather = nil;
         // Count will be 0 if the record doesn't exist
-        if(count == 0) {
-            
+        if(fetchedObjects.count == 0) {
             // Create a new record
-            Weather *weather = [NSEntityDescription insertNewObjectForEntityForName:@"Weather"
+            weather = [NSEntityDescription insertNewObjectForEntityForName:@"Weather"
                                                              inManagedObjectContext:context];
-            weather.temperature = responseObject[@"main"][@"temp"];
-            weather.location = responseObject[@"name"];
-            weather.icon = imageURLString;
-            weather.dt = dt;
-            NSError *error = nil;
-            [context save:&error];
-            
-            if(error) {
-                NSLog(@"Error saving weather info: %@", error);
-            }
+        } else {
+            weather = fetchedObjects.firstObject;
+        }
+        
+        weather.temperature = responseObject[@"main"][@"temp"];
+        weather.location = responseObject[@"name"];
+        weather.icon = imageURLString;
+        weather.dt = dt;
+        NSError *aerror = nil;
+        [context save:&aerror];
+        
+        if(aerror) {
+            NSLog(@"Error saving weather info: %@", aerror);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
