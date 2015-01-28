@@ -58,7 +58,7 @@
         }
         case 4:
         {
-            controller = [self.storyboard instantiateViewControllerWithIdentifier:@"WeatherHistoryViewController"];
+            controller = [self.storyboard instantiateViewControllerWithIdentifier:@"WeatherHistoryTableViewController"];
             break;
         }
         default:

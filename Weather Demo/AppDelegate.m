@@ -30,6 +30,18 @@
     [container setRightMenuViewController:leftSideMenuViewController];
     [container setCenterViewController:navigationController];
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:NO forKey:@"startup"];
+    [defaults synchronize];
+    
+    if([defaults boolForKey:@"startup"]) {
+        // Show startup
+        NSLog(@"show startup");
+    } else {
+        // Dont show startup
+        NSLog(@"dont show startup");
+    }
+    
     return YES;
 }
 
